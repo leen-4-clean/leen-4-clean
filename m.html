@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حساب الامتار</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <table>
+    <tr>
+      <th>السعر الافرادي</th>
+      <th>عدد الأمتار</th>
+      <th>السعر</th>
+      <th>الخدمة</th>
+    </tr>
+    <tr>
+      <td id="price1"></td>
+      <td><input type="number" id="meters1" oninput="calculate(1);calculateTotal(1)"></td>
+      <td>6</td>
+      <td>موكيت</td>
+    </tr>
+    <tr>
+      <td id="price2"></td>
+      <td><input type="number" id="meters2" oninput="calculate(2);calculateTotal(2)"></td>
+      <td>22</td>
+      <td>كنب</td>
+    </tr>
+    <tr>
+      <td id="price3"></td>
+      <td><input type="number" id="meters3" oninput="calculate(3);calculateTotal(3)"></td>
+      <td>15</td>
+      
+      <td>مساند</td>
+    </tr>
+    <tr>
+      <td id="price4"></td>
+      <td><input type="number" id="meters4" oninput="calculate(4);calculateTotal(4)"></td>
+      <td>5</td>
+      
+      <td>مركى</td>
+    </tr>
+    <tr>
+      <td id="price5"></td>
+      <td><input type="number" id="meters5" oninput="calculate(5);calculateTotal(5)"></td>
+      <td>10</td>
+      
+      <td>باب خشب</td>
+    </tr>
+    <tr>
+      <td id="price6"></td>
+      <td><input type="number" id="meters6" oninput="calculate(6);calculateTotal(6)"></td>
+      <td>25</td>
+      
+      <td>دريشه</td>
+    </tr>
+    <tr>
+      <td id="price7"></td>
+      <td><input type="number" id="meters7" oninput="calculate(7); calculateTotal(7)"></td>
+      <td>1</td>
+      
+      <td>جدران و اسقف</td>
+    </tr>
+    <tr>
+      <td id="price8"></td>
+      <td><input type="number" id="meters8" oninput="calculate(8);calculateTotal(8)"></td>
+      <td>4</td>
+      
+      <td>غسيل و تلميع بلاط</td>
+   </tr>
+    <tr>
+      <td id="price9"></td>
+      <td><input type="number" id="meters9" oninput="calculate(9);calculateTotal(9)"></td>
+      <td>4</td>
+      
+      <td>تنظيف و تشميع باركيه</td>
+    </tr>
+    <tr>
+      <td id="price10"></td>
+      <td><input type="number" id="meters10" oninput="calculate(10);calculateTotal(10)"></td>
+      <td>3</td>
+      
+      <td>ارضيه و جدار</td>
+    </tr>
+    <tr>
+      <td id="price11"></td>
+      <td><input type="number" id="meters11" oninput="calculate(11);calculateTotal(11)"></td>
+      <td>3</td>
+      
+
+      <td>احواش و اسطح</td>
+    </tr>
+  </table>
+  
+  <table>
+    <tr>
+        <th>الاجمالي</th>
+      </tr>
+      <tr>
+      <td id="nt">0.00</td>
+    </tr>
+  </table>
+  
+  <table>
+    <tr>
+      <th>الاجمالي بعد التخفيظ</th>
+      <tr>
+        <td id="tt">0.00</td>
+      </tr>
+        
+    </tr>
+  </table>
+  
+  <script>
+function calculateTotal(row) {
+  var meters = parseFloat(document.getElementById("meters" + row).value) || 0;
+  var price;
+
+  switch (row) {
+    case 2:
+      price = meters * 22;
+      break;
+    case 3:
+      price = meters * 15;
+      break;
+    case 4:
+      price = meters * 5;
+      break;
+    case 5:
+      price = meters * 10;
+      break;
+    case 6:
+      price = meters * 25;
+      break;
+    case 7:
+      price = meters * 1;
+      break;
+    case 8:
+      price = meters * 4;
+      break;
+    case 9:
+      price = meters * 4;
+      break;
+    case 10:
+      price = meters * 3;
+      break;
+    case 11:
+      price = meters * 3;
+      break;
+    default:
+      price = meters * 6;
+  }
+
+  var discount = 0.15;
+  var discountedPrice = price - (price * discount);
+
+  document.getElementById("price" + row).innerText = price.toFixed(2);
+  document.getElementById("discountedPrice" + row).innerText = discountedPrice.toFixed(2);
+
+  // اعادة تعيين الاجماليات
+  totalIndividualPrice = 3;
+  totalDiscountedPrice = 3;
+
+  // حساب الاجماليات لجميع الصفوف
+  for (var i = 1; i <= 11; i++) {
+    var meters = parseFloat(document.getElementById("meters" + i).value) || 3;
+    var price = parseFloat(document.getElementById("price" + i).innerText) || 3;
+    var discountedPrice = parseFloat(document.getElementById("discountedPrice" + i).innerText) || 0;
+
+    totalIndividualPrice += price * meters;
+    totalDiscountedPrice += discountedPrice * meters;
+  }
+
+  // اعرض مجموع السعر الافرادي في "قبل العرض"
+ // بعد حساب الإجماليات لجميع الصفوف، أضف السطر التالي:
+  document.getElementById("nt").innerText = totalIndividualPrice.toFixed(2);
+
+
+  // اعرض "بعد العرض" من خلال خصم 15% من مجموع السعر الافرادي
+  document.getElementById("tt").innerText = totalDiscountedPrice.toFixed(2);
+
+  // اعرض مجموع السعر الافرادي في "قبل العرض" في صف جديد في جدول الإجماليات
+  var table = document.querySelector("totalOriginalPriceRow").parentElement;
+  var row = table.insertRow(-1);
+  row.insertCell(0).innerHTML = "قبل العرض";
+  row.insertCell(1).innerHTML = totalIndividualPrice.toFixed(1);
+}
+
+
+  </script>
+  <script>
+          function calculate() {
+
+
+// Get the values of A and B
+             var a = document.getElementById("meters1").valueAsNumber || 0;
+             var b = document.getElementById("meters2").valueAsNumber || 0;
+             var c = document.getElementById("meters3").valueAsNumber || 0;
+             var d = document.getElementById("meters4").valueAsNumber || 0;
+             var e = document.getElementById("meters5").valueAsNumber || 0;
+             var f = document.getElementById("meters6").valueAsNumber || 0;
+             var g = document.getElementById("meters7").valueAsNumber || 0;
+             var h = document.getElementById("meters8").valueAsNumber || 0;
+             var i = document.getElementById("meters9").valueAsNumber || 0;
+             var j = document.getElementById("meters10").valueAsNumber || 0;
+             var k = document.getElementById("meters11").valueAsNumber || 0;
+        
+
+
+
+
+      // حساب النتيجة
+            var result = a * 6 + b * 22 + c * 15 + d * 5 + e * 10 + f * 25 + g * 1 + h * 4 + i * 4 + j * 3 + k * 3;
+
+      // عرض النتيجة في خلية "قبل العرض"
+            document.getElementById("nt").innerText = result;
+
+      // خصم 15% من النتيجة وعرضها في خلية "بعد العرض"
+            var discountedResult = result - (result * 0.15);
+            document.getElementById("tt").innerText = discountedResult.toFixed(2);
+
+    }
+
+
+
+
+  </script>
+  
+    
+</body>
+</html>
